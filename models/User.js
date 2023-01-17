@@ -2,9 +2,9 @@ const { Schema, model } = require('mongoose')
 
     const userSchema = new Schema(
     {
+        //Todo: Check if unique and trimmed are valid fields
         username: {
-            //Todo: Check if unique and trimmed are valid fields
-            type: String,
+            type: String, 
             unique: true,
             required: true,
             trimmed: true
@@ -29,9 +29,15 @@ const { Schema, model } = require('mongoose')
         ]
     },
     {
-        //Todo: Create a virtual called friendCount that retrieves the length of the user's friends array field on query.
+        toJSON: {
+            virtuals: true,
+        },
     }
 )
+//Retrieves the length of the user's friends array field on query.
+userSchema.virtual('friendCount').get(function() {
+    return this.friends.length;
+})
 
 const User = model('user', userSchema);
 

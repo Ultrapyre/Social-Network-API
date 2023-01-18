@@ -2,18 +2,18 @@ const { Schema, model } = require('mongoose')
 
     const userSchema = new Schema(
     {
-        //Todo: Check if unique and trimmed are valid fields
         username: {
             type: String, 
             unique: true,
             required: true,
-            trimmed: true
+            trim: true
         },
         email: {
             type: String,
             unique: true,
             required: true,
-            //Todo: Validation for the entry to match an email's structure.
+            //Validation for the entry to match an email's structure.
+            match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, 'Please fill in a valid email address!']
         },
         thoughts: [
             {
@@ -32,6 +32,8 @@ const { Schema, model } = require('mongoose')
         toJSON: {
             virtuals: true,
         },
+        // Stops a redundant ID value from being created. __id works well enough.
+        id: false
     }
 )
 //Retrieves the length of the user's friends array field on query.

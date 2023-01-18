@@ -9,20 +9,24 @@ const thoughtSchema = new Schema(
             min_length: 1,
             max_length: 280
         },
+        username: {
+            type: String,
+            required: true,
+        },
         createdAt: {
             type: Date,
             default: Date.now(),
-        },
-        username: {
-            type: String,
-            required: true
+            //Modifies the date format into a more readable format when queried.
+            get: (function(value){return value.toLocaleString()})
         },
         reactions: [reactionSchema] 
     },
     {
         toJSON: {
+            getters: true,
             virtuals: true,
         },
+        id: false
     }
 )
 

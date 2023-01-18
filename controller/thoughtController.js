@@ -57,7 +57,8 @@ module.exports = {
             const badThought = await Thought.findByIdAndDelete(req.params.thoughtId)
             !badThought
             ? res.status(404).json({message: 'No thought found with given ID!'})
-            : res.json(badThought)
+            : await User.findOneAndUpdate({username: badThought.username}, {$pull: {thoughts: req.params.thoughtId}})
+            res.json(badThought)
         } 
         catch (err) {
             return res.status(500).json(err) 

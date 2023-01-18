@@ -82,9 +82,9 @@ module.exports = {
         try {
             const badReact = await Thought.findByIdAndUpdate(req.params.thoughtId,
                 //Pull the reaction from the reactions array in reference to the reactionId value.
-            {$pull: {reactions: {reactionId: req.params.reactionId}}})
+            {$pull: {reactions: {reactionId: req.params.reactionId}}}, { runValidators: true, new: true })
             !badReact
-            ? res.status(404).json({message: 'No thought/reaction found with given ID!'})
+            ? res.status(404).json({message: 'No thought found with given ID!'})
             : res.json(badReact)
         } 
         catch (err) {

@@ -70,7 +70,7 @@ module.exports = {
             //This is more of a 'Put' function considering we're updating a user's friend list...
             //Why did the challenge ask for it to be a Post route again? :P
             const newFriend = await User.findByIdAndUpdate(req.params.userId, 
-                {friends: {$push: req.params.friendId}})
+                {$push: {friends: req.params.friendId}}, { runValidators: true, new: true })
             !newFriend
             ? res.status(404).json({message: 'One or both IDs are invalid!'})
             : res.json(newFriend)
@@ -83,7 +83,7 @@ module.exports = {
     async removeFriend(req, res){
         try {
             const byeFriend = await User.findByIdAndUpdate(req.params.userId, 
-                {friends: {$pull: req.params.friendId}})
+                {$pull: {friends: req.params.friendId}}, { runValidators: true, new: true })
             !byeFriend
             ? res.status(404).json({message: 'One or both IDs are invalid!'})
             : res.json(byeFriend)

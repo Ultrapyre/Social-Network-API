@@ -43,7 +43,7 @@ module.exports = {
             !updateUser 
             ? res.status(404).json({message: 'No user found with given ID!'})
             //Updates all thoughts created by this user if the username has been changed.
-            : await Thought.updateMany({__id: {$in: updateUser.thoughts}}, {username: req.body.username})
+            : await Thought.updateMany({_id: {$in: updateUser.thoughts}}, {username: updateUser.username})
             res.json(updateUser)
         }
         catch(err){
@@ -57,7 +57,7 @@ module.exports = {
             !badUser
             ? res.status(404).json({message: 'No user found with given ID!'})
             //Purges all thoughts created by this user.
-            : await Thought.deleteMany({__id: {$in: badUser.thoughts}})
+            : await Thought.deleteMany({_id: {$in: badUser.thoughts}})
             res.json(badUser)
         } 
         catch (err) {
